@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "779737086240",
+    "project_id": "sandbox-cafeteria-bianchys",
+    "storage_bucket": "sandbox-cafeteria-bianchys.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779737086240:android:363d8495d49a75021bbf45",
+        "android_client_info": {
+          "package_name": "com.example.cafeteria_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5hTPbjaKqUtRes8fDH-eB_M8midc7O9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
