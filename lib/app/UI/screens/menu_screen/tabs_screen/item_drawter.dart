@@ -27,6 +27,7 @@ class ItemDrawter extends StatefulWidget {
   final CollectionReference<Map<String, dynamic>> collectionCategory;
 
   @override
+  // ignore: no_logic_in_create_state
   State<ItemDrawter> createState() => _ItemDrawterState(selectedCategoryId: currentItem.categoryId!, imgItemUrlFire: currentItem.imgItem!);
 }
 

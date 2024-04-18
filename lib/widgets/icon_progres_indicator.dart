@@ -4,6 +4,7 @@ class IconProgressInidcator extends StatefulWidget {
   const IconProgressInidcator({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _IconProgressInidcatorState createState() => _IconProgressInidcatorState();
 }
 
