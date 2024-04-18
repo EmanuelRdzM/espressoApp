@@ -19,7 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,9 +37,18 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.25.4
   firebase_auth: ^4.17.4
+  cloud_firestore: ^4.8.3 # Used to Save User Data in Database
+  firebase_messaging: ^14.6.5 # Used to Send Push Notifications (e.g. New like, Visit and Message)
+  firebase_storage: ^11.2.5 # Used to Save User Profile Images on Cloud Storage
   flutter_svg: ^0.22.0
   confetti: ^0.7.0
   flutter_bloc: ^8.1.4
+  fluttertoast: ^8.2.2
+  image_picker: ^0.8.1
+  provider: ^6.1.2
+  connectivity_plus: ^6.0.1
+  file_picker: ^4.6.1
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +80,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/icons/
+    - assets/favicons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
