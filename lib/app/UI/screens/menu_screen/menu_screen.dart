@@ -1,3 +1,6 @@
+import 'package:cafeteria_app/app/UI/screens/menu_screen/tabs_screen/category_tab.dart';
+import 'package:cafeteria_app/app/UI/screens/menu_screen/tabs_screen/items_tab.dart';
+import 'package:cafeteria_app/app/UI/screens/menu_screen/tabs_screen/menu_tab.dart';
 import 'package:flutter/material.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -10,23 +13,33 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int currenIndex = 0;
+  String _selectedMenuId = '';
+  String _selectedCategoryId = '';
 
-  final List<Widget> _tabs = [
-    /// Tabs Screens
-    const Scaffold( body: Center(child: Text('MENU'))),
-    const Scaffold(body: Center(child: Text('Categorias'))),
-    const Scaffold(body: Center(child: Text('productos'))),
-    const Scaffold(body: Center(child: Text('Xtras'))),
-  ];
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    //_tabController.addListener(() => _handleTabChange() );
+  }
+
+  @override
+  void didUpdateWidget(covariant MenuScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _selectedMenuId = '';
+  }
   
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _tabs.length,
+      length: 3,
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           title: TabBar(
+            controller: _tabController,
             indicatorColor: Colors.amber,
             labelColor: const Color.fromRGBO(240, 253, 255, 1),
             dividerColor: Theme.of(context).primaryColor,
@@ -38,8 +51,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
             tabs: const [
               Tab(text: 'Menú'),
               Tab(text: 'Categorias'),
-              Tab(text: 'Prodcutos'),
-              Tab( text: 'Xtras')
+              Tab(text: 'Prodcutos')
             ],
           ),
           leading: IconButton(
@@ -49,9 +61,48 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
           ),
         ),
         body: TabBarView(
-          children: _tabs,
+          controller: _tabController,
+          //children: _tabs,
+          children: [
+            MenuTab(
+              onMenuSelected: (menuId) {
+                setState(() {
+                  _selectedMenuId = menuId;
+                  _selectedCategoryId = '';
+                });
+                _onMenuSelected(1);
+              },
+            ),
+            CategoryTab(
+              selectedMenuId: _selectedMenuId, 
+              updateSelection: (menuId){
+                setState(() {
+                  _selectedMenuId = menuId;
+                  _selectedCategoryId = '';
+                });
+              },
+              onCategorySelected: (categoryId, menuId){
+                setState(() {
+                  _selectedMenuId = menuId;
+                  _selectedCategoryId = categoryId;
+                });
+
+                _onMenuSelected(2);
+            }),
+            ItemTab(
+              selectedMenuId: _selectedMenuId,
+              selectedCategoryId: _selectedCategoryId,
+            ),
+          ],
         ),
       ),
     );
   }
+
+  void _onMenuSelected(int index) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tabController.animateTo(index);
+    });
+  }
+
 }

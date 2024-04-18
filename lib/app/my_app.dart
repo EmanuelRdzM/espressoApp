@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter COFFE',
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.login,
+      initialRoute: Routes.splash,
       routes: appRoutes,
       theme: _appTheme(),
     );
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         
         errorStyle: const TextStyle(fontSize: 16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(26),
         )
       ),
       
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         systemOverlayStyle: SystemUiOverlayStyle.light,
         titleTextStyle: TextStyle(
           color: Color.fromARGB(255, 230, 230, 230), 
-          fontSize: 22,
+          fontSize: 30,
           fontWeight: FontWeight.bold
         ),
       ),

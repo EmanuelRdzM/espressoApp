@@ -1,8 +1,10 @@
 //import 'package:cafeteria_app/app/UI/inject_dependencies.dart';
+import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/app/my_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async{
@@ -15,9 +17,11 @@ void main() async{
   //   DeviceOrientation.landscapeLeft,
   //   DeviceOrientation.landscapeRight,
   // ]);
-
-  //injectDependencies();
-  runApp(const MyApp());
+  
+  runApp(ChangeNotifierProvider(
+    create: (context) => UserProvider(),
+    child: const MyApp())
+  );
 }
 
 Future<void> initialize() async {

@@ -1,13 +1,9 @@
-
 import 'package:cafeteria_app/app/UI/routes/routes.dart';
-import 'package:cafeteria_app/app/UI/screens/home_screen.dart';
+import 'package:cafeteria_app/app/data/user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavigationDrawer extends StatelessWidget{
-  final _menuTextStyle = const TextStyle(
-    fontSize: 16.0,
-    fontWeight: FontWeight.w500,
-  );
 
   const NavigationDrawer({super.key});
   
@@ -19,17 +15,6 @@ class NavigationDrawer extends StatelessWidget{
         children: [
           _drawerHeader(context),
           const Divider(height: 0),
-
-          ListTile(
-            leading: const Icon(Icons.home_rounded),
-            title: Text("Home", style: _menuTextStyle),
-            onTap: () {
-              // Validar si se abrio el restaurante, si esta abierto dirigir a HomeScreen
-              // Si el restaurante esta cerrado ir a WelcomeScreen.
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
-            },
-          ),
 
           ListTile(
             leading: const Icon(Icons.account_circle),
@@ -56,6 +41,8 @@ class NavigationDrawer extends StatelessWidget{
             leading: const Icon(Icons.close),
             title: const Text('Log out'),
             onTap: () {
+              Provider.of<UserProvider>(context, listen: false).signOut();
+              //FirebaseAuth.instance.signOut();
               Navigator.of(context).pushReplacementNamed(Routes.login);
             },
           ),
