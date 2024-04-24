@@ -1,7 +1,7 @@
 import 'package:cafeteria_app/app/UI/screens/contact_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/home_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/menu_screen/menu_screen.dart';
-import 'package:cafeteria_app/app/UI/screens/orders_avaible_screen.dart';
+import 'package:cafeteria_app/app/UI/screens/tickets_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/sign_in_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/sign_up_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/splash_screen/splash_screen.dart';
@@ -23,7 +23,7 @@ Map<String, Widget Function(BuildContext)> get appRoutes =>{
   Routes.welcome: (_) => const WelcomeScreen(),
   Routes.home: (_) => const HomeScreen(),
   Routes.menu: (_) => const MenuScreen(),
-  Routes.ordersAvailble: (_) => const OrdersScreen(),
+  Routes.openTickets: (_) => const TicketsScreen(),
   Routes.inventory: (_) => const InventoryScreen(),
   Routes.contacts: (_) => const ContactScreen(),
 };

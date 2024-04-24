@@ -5,7 +5,7 @@ abstract class Routes{
   static const welcome= '/welcome';
   static const home= '/home';
   static const menu= '/menu';
-  static const ordersAvailble = '/orders-avaible';
+  static const openTickets = '/open-tickets';
   static const ordersManagment= '/orders.managment';
   static const inventory = '/store';
   static const contacts = '/contatcs';

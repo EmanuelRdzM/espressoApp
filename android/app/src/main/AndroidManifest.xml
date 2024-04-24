@@ -4,7 +4,7 @@
 
     <application
         android:usesCleartextTraffic="true"
-        android:label="cafeteria_app"
+        android:label="ESPRESSO"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

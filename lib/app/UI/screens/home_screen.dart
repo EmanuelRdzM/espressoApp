@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 
                         IconTextButton(labelText: 'Pedidos', icon: Icons.receipt_long, 
                           onTap: (){
-                            Navigator.of(context).pushNamed(Routes.ordersAvailble);
+                            Navigator.of(context).pushNamed(Routes.openTickets);
                           }
                         ),
                       ],

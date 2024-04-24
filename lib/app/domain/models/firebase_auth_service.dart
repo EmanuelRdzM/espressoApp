@@ -42,8 +42,22 @@ class FirebaAutServices{
       UserCredential credential = await _auth.signInWithEmailAndPassword(email: email, password: password);
       return credential.user;
     } on FirebaseAuthException catch (e) {
-      if(e.code == 'user-not-found' || e.code == 'wrong-password' || e.code == 'invalid-credential'){
+      if(e.code == 'user-not-found'){
+        showToast(message: 'User not found for this Emai');
+        //print('Firebase Authentication Exception: ${e.code}/////////////');
+
+      } else if(e.code == 'wrong-password'){
+        showToast(message: 'Wrong Password');
+        //print('Firebase Authentication Exception: ${e.code}/////////////');
+
+      } else if(e.code == 'invalid-credential'){
         showToast(message: 'Invalid email or password');
+        //print('Firebase Authentication Exception: ${e.code}/////////////');
+
+      } else if(e.code == 'invalid-email'){
+        showToast(message: 'Invalid email');
+        //print('Firebase Authentication Exception: ${e.code}/////////////');
+
       }else{
         showToast(message: 'An error  ocurred: ${e.code}.');
       }
