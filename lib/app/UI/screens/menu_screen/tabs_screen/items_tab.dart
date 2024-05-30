@@ -3,6 +3,7 @@ import 'package:cafeteria_app/app/data/items.dart';
 import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/widgets/add_menu_category.dart';
 import 'package:cafeteria_app/widgets/icon_progres_indicator.dart';
+import 'package:cafeteria_app/widgets/show_info_item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -226,7 +227,7 @@ class _ItemTabState extends State<ItemTab> {
                                                 return Padding(
                                                   padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                                                   child: Card(
-                                                    elevation: 2.0,
+                                                    elevation: 0.8,
                                                     margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                                                     child: ListTile(
                                                       leading: GestureDetector(
@@ -272,130 +273,7 @@ class _ItemTabState extends State<ItemTab> {
                                                         showDialog(
                                                           context: context, 
                                                           builder: (BuildContext context) {
-                                                            return AlertDialog(
-                                                              backgroundColor: Colors.transparent,
-                                                              contentPadding: EdgeInsets.zero,
-                                                              content: SingleChildScrollView(
-                                                                child: SizedBox(
-                                                                  width: MediaQuery.of(context).size.width * 0.5, // Ancho del AlertDialog
-                                                                  child: Card(
-                                                                    shape: RoundedRectangleBorder(
-                                                                      borderRadius: BorderRadius.circular(16.0), // Bordes redondeados del Card
-                                                                    ),
-                                                                    child: Container(
-                                                                      decoration: BoxDecoration(
-                                                                        borderRadius: BorderRadius.circular(16.0),
-                                                                        color: Colors.blueGrey[50],
-                                                                      ),
-                                                                      child: Column(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                                        children: [
-                                                                          const SizedBox(height: 20),
-                                                                          // Imagen del producto
-                                                                          Container(
-                                                                            margin: const EdgeInsets.all(10),
-                                                                            width: 300,
-                                                                            height: 300,
-                                                                            decoration: const BoxDecoration(
-                                                                              //color: Colors.amber,
-                                                                            ),
-                                                                            
-                                                                            child: item['img_item'].isEmpty
-                                                                            ? Padding(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              child: Center(
-                                                                                child: Container(
-                                                                                  width: 250,
-                                                                                  height: 250,
-                                                                                  margin: const EdgeInsets.all(8),
-                                                                                  decoration: BoxDecoration(
-                                                                                    shape: BoxShape.rectangle,
-                                                                                    color: Colors.grey,
-                                                                                    borderRadius: BorderRadius.circular(10), // Redondear los bordes del contenedor
-                                                                                  ),
-                                                                                  child: const Padding(
-                                                                                    padding: EdgeInsets.all(8.0),
-                                                                                    child: Center(
-                                                                                      child: Icon(
-                                                                                        Icons.image_not_supported,
-                                                                                        size: 50,
-                                                                                        color: Colors.white,
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            )
-                                                                            : Image.network(
-                                                                              item['img_item'],
-                                                                              fit: BoxFit.contain ,
-                                                                              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress){
-                                                                                if (loadingProgress == null){
-                                                                                  return child;
-                                                                                }else{
-                                                                                  return Center(
-                                                                                    child: CircularProgressIndicator(
-                                                                                      value: loadingProgress.expectedTotalBytes != null
-                                                                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                                                                          : null,
-                                                                                    ),
-                                                                                  );
-                                                                                }
-                                                                              },
-                                                                              errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
-                                                                                return const Center(
-                                                                                  child: Icon(
-                                                                                    Icons.error,
-                                                                                    size: 50,
-                                                                                    color: Colors.amber,
-                                                                                  ),
-                                                                                );
-                                                                              },
-                                                                            ),
-                                                                          ),
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.all(16.0),
-                                                                            child: Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                // Nombre del producto
-                                                                                Text(
-                                                                                  item['name_item'],
-                                                                                  style: const TextStyle(
-                                                                                    fontSize: 20,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    color: Colors.black,
-                                                                                  ),
-                                                                                ),
-                                                                                const SizedBox(height: 8), // Espacio entre el nombre y la descripción
-                                                                                // Descripción del producto
-                                                                                Text(
-                                                                                  item['description_item'],
-                                                                                  style: const TextStyle(fontSize: 16,
-                                                                                    color: Colors.black87,
-                                                                                  ),
-                                                                                ),
-                                                                                const SizedBox(height: 8), // Espacio entre la descripción y el precio
-                                                                                // Precio del producto
-                                                                                Text(
-                                                                                  'Precio: \$${item['price_item']}',
-                                                                                  style: const TextStyle(
-                                                                                    fontSize: 16, 
-                                                                                    fontWeight: FontWeight.w900,
-                                                                                    fontStyle: FontStyle.italic,
-                                                                                    color: Colors.black54),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            );
+                                                            return ShowInfoItem(item: item);
                                                           },
                                                         );
                                                       },

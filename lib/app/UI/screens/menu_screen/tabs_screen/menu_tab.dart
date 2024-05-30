@@ -46,7 +46,9 @@ class _MenuTabState extends State<MenuTab> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
                     child: Card(
-                      elevation: 2.0,
+                      color: Colors.white,
+                      elevation: 0.7,
+                      margin: const EdgeInsets.all(6.0),
                       child: ListTile(
                         onTap: () {
                           widget.onMenuSelected(menu.id);

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:cafeteria_app/app/data/items.dart';
+import 'package:cafeteria_app/widgets/image_source_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/material.dart';
@@ -45,6 +45,7 @@ class _ItemDrawterState extends State<ItemDrawter> {
 
   String imgItemUrlFire;
   String selectedCategoryId;
+  File? _imageFile;
 
 
   @override
@@ -186,35 +187,34 @@ class _ItemDrawterState extends State<ItemDrawter> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
+                          elevation: 4
                         ),
                         onPressed: () async {
-                          // File Picker
-                          final result = await FilePicker.platform.pickFiles();
-                          if (result == null || result.files.isEmpty) return;
-                          final nameImage = result.files.single.name;
-              
-                          // Image path & FILE
-                          final filePath = result.files.single.path;
-                          File imgItem = File(filePath!);
-              
+                          String imageItemUrl = imgItemUrlFire;
+                          
+                          // esperar a que se complete la seleccion de la imagen
+                          await _getImage(context);
+
                           //ADD IMAGE to firestore
                           setState(() {
                             isLoading = true;
                           });
-              
-                          final String imageItemUrl = await uploadFile(
-                            file: imgItem,
-                            path: 'uploads/items_images',
-                            refName: '${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}_${widget.currentItem.categoryId!.substring(0,5)}_$nameImage',
-                          );
-              
+
+                          if(_imageFile != null){
+
+                            imageItemUrl = await uploadFile(
+                              file: _imageFile!,
+                              path: 'uploads/items_images',
+                              refName: '${DateFormat('yyyyMMddHHmmss').format(DateTime.now())}_${widget.currentItem.categoryId!.substring(0,5)}',
+                            );
+                          }
+
                           setState(() {
                             imgItemUrlFire = imageItemUrl;
                             isLoading = false;
                           });
-              
-                          //print(imageItemUrl);
-              
+
+
                         },
                         child: widget.currentItem.imgItem!.isEmpty 
                         ? const Text('Upload Image')
@@ -224,11 +224,15 @@ class _ItemDrawterState extends State<ItemDrawter> {
                     
                   ),
               
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 50),
               
                   Row(
                     children: [
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          elevation: 4
+                        ),
                         onPressed: () {
                           // Acción al presionar el botón "Cancelar"
                           Navigator.of(context).pop();
@@ -239,6 +243,9 @@ class _ItemDrawterState extends State<ItemDrawter> {
                       const SizedBox(width: 30),
                       
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 4
+                        ),
                         onPressed: () async {
 
                           if (_formKey.currentState!.validate()) {
@@ -318,18 +325,32 @@ class _ItemDrawterState extends State<ItemDrawter> {
     );
   }
 
+  Future<void> _getImage(BuildContext context) async {
+    await ImageSourceSheet().getImagefromGallery(
+      onImageSelected: (image){
+        if(image != null){
+          setState(() {
+            _imageFile = image;
+            print('image changed :D');
+          });
+        }
+      }
+    );
+  }
+
   Future<String> uploadFile({
     required File file,
     required String path,
     required String refName,
   }) async {
+    String imageName =
+        refName + DateTime.now().millisecondsSinceEpoch.toString();
     // Storage reference
-    final storageRef = FirebaseStorage.instance;
+    final storageRef = FirebaseStorage.instance.ref().child('$path/$imageName');
+    
     // Upload file
-    final UploadTask uploadTask = storageRef
-        .ref()
-        .child('$path/$refName')
-        .putFile(file);
+    final UploadTask uploadTask = storageRef.putFile(file);
+
     final TaskSnapshot snapshot = await uploadTask;
     String url = await snapshot.ref.getDownloadURL();
     // return file link

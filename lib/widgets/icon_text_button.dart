@@ -4,6 +4,7 @@ class IconTextButton extends StatelessWidget {
   final String labelText;
   final IconData icon;
   final VoidCallback? onTap;
+  final VoidCallback? deleteButton;
   final double height;
   final double width; 
   final bool canDeleted ;
@@ -13,8 +14,9 @@ class IconTextButton extends StatelessWidget {
     required this.labelText, 
     required this.icon,
     required this.onTap,
-    this.height = 150.0,
-    this.width = 150.0,
+    this.deleteButton,
+    this.height = 120.0,
+    this.width = 120.0,
     this.canDeleted = false,
   });
 
@@ -24,10 +26,13 @@ class IconTextButton extends StatelessWidget {
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            disabledForegroundColor: Colors.amber,
             padding: const EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
+            elevation: 0.3,
           ),
           child: SizedBox(
             width: width,
@@ -37,7 +42,7 @@ class IconTextButton extends StatelessWidget {
               children: [
                 Icon(icon, size: 45),
                 const SizedBox(height: 10),
-                Text(labelText, style: const TextStyle(fontSize: 16)),
+                Text(labelText, style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,),
               ],
             ),
           ),
@@ -52,7 +57,7 @@ class IconTextButton extends StatelessWidget {
             right: -1,
             child: ElevatedButton(
               onPressed: () {
-                
+                deleteButton!();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,

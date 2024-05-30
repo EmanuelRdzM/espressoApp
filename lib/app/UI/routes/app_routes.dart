@@ -26,4 +26,5 @@ Map<String, Widget Function(BuildContext)> get appRoutes =>{
   Routes.openTickets: (_) => const TicketsScreen(),
   Routes.inventory: (_) => const InventoryScreen(),
   Routes.contacts: (_) => const ContactScreen(),
+  //Routes.orderManagment: (_) => const OrderAvaible(),
 };
