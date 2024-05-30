@@ -26,6 +26,7 @@ class CategoryTab extends StatefulWidget {
 }
 
 class _CategoryTabState extends State<CategoryTab> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String selectedMenuId;
   bool _showAddButton = false;
   
@@ -45,6 +46,7 @@ class _CategoryTabState extends State<CategoryTab> {
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
             .collection('Users')
@@ -58,8 +60,8 @@ class _CategoryTabState extends State<CategoryTab> {
             if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+              
               final menus = snapshot.data!.docs;
-
               final menuList = menus
                 .map<DropdownMenuItem<String>>((DocumentSnapshot menu) {
                   return DropdownMenuItem<String>(
@@ -76,102 +78,106 @@ class _CategoryTabState extends State<CategoryTab> {
               );
               menuList.insert(0, newMenuItem);
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: DropdownButtonFormField<String>(
-                      value: selectedMenuId,
-                      hint: const Text('Selecciona un menú'),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedMenuId = newValue!;
-                          _showAddButton = true;
-                          widget.updateSelection(selectedMenuId);
-                        });
-                      },
-                      items: menuList,
-                      icon: const Icon(Icons.arrow_drop_down_circle_outlined),
-                      style: const TextStyle(color: Colors.black),
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(), // Estilo del borde del campo de entrada
-                        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Espaciado interno del campo de entrada
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedMenuId,
+                          hint: const Text('Selecciona un menú'),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedMenuId = newValue!;
+                              _showAddButton = true;
+                              widget.updateSelection(selectedMenuId);
+                            });
+                          },
+                          items: menuList,
+                          icon: const Icon(Icons.arrow_drop_down_circle_outlined),
+                          style: const TextStyle(color: Colors.black),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(), // Estilo del borde del campo de entrada
+                            contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Espaciado interno del campo de entrada
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  selectedMenuId.isEmpty 
-                  ? const SizedBox()
-                  : Expanded(
-                    child: FutureBuilder<QuerySnapshot>(
-                      future: FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(userProvider.currentUser.userId)
-                          .collection('menus')
-                          .doc(selectedMenuId)
-                          .collection('categories')
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: IconProgressInidcator());
-                        } else {
-                          if (snapshot.hasError) {
-                            return Center(
-                              child: Text('Error: ${snapshot.error}')
-                            );
-                          } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-                            return ListView.builder(
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                final category = snapshot.data!.docs[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                                  child: Card(
-                                    elevation: 2.0,
-                                    margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-                                    child: ListTile(
-                                      onTap: () {
-                                        widget.onCategorySelected(category.id, selectedMenuId);
-                                      },
-                                      leading: GestureDetector(
-                                        child: const Icon(Icons.restaurant_menu),
+                      const SizedBox(height: 20),
+                  
+                      selectedMenuId.isEmpty 
+                      ? const SizedBox()
+                      : FutureBuilder<QuerySnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(userProvider.currentUser.userId)
+                            .collection('menus')
+                            .doc(selectedMenuId)
+                            .collection('categories')
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: IconProgressInidcator());
+                          } else {
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${snapshot.error}')
+                              );
+                            } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                              return ListView.separated(
+                                shrinkWrap: true,
+                                separatorBuilder: (context, index) => const SizedBox(height: 5),
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final category = snapshot.data!.docs[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                                    child: Card(
+                                      elevation: 0.8,
+                                      margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                                      child: ListTile(
+                                        onTap: () {
+                                          widget.onCategorySelected(category.id, selectedMenuId);
+                                        },
+                                        leading: GestureDetector(
+                                          child: const Icon(Icons.restaurant_menu),
+                                        ),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            GestureDetector(
+                                              child: const Icon(Icons.edit),
+                                              onTap: (){
+                                                _editNameCategoryDialog(userProvider.currentUser.userId!, selectedMenuId, category.id, () => setState(() {}));
+                                              },
+                                            ),
+                                            const SizedBox(width: 12), // Espacio entre los iconos
+                                            GestureDetector(
+                                              child: const Icon(Icons.delete),
+                                              onTap: () {
+                                                _deletCategoryDialog(userProvider.currentUser.userId!, selectedMenuId, category.id, () => setState(() {}));
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                          title: Text(category['name_category']),
                                       ),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          GestureDetector(
-                                            child: const Icon(Icons.edit),
-                                            onTap: (){
-                                              _editNameCategoryDialog(userProvider.currentUser.userId!, selectedMenuId, category.id, () => setState(() {}));
-                                            },
-                                          ),
-                                          const SizedBox(width: 12), // Espacio entre los iconos
-                                          GestureDetector(
-                                            child: const Icon(Icons.delete),
-                                            onTap: () {
-                                              _deletCategoryDialog(userProvider.currentUser.userId!, selectedMenuId, category.id, () => setState(() {}));
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                        title: Text(category['name_category']),
                                     ),
-                                  ),
-                                );
-                              },
-                            );
-                            } else {
-                              return const Center(child: Text('No hay categorías disponibles.'));
+                                  );
+                                },
+                              );
+                              } else {
+                                return const Center(child: Text('No hay categorías disponibles.'));
+                            }
                           }
-                        }
-                      },
-                    ),
+                        },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               );
             } else {
               return const Center(child: Text('No hay menús disponibles.'));

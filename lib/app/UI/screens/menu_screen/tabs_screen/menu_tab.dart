@@ -25,6 +25,7 @@ class _MenuTabState extends State<MenuTab> {
     final userProvider = Provider.of<UserProvider>(context, listen: true);
 
     return Scaffold(
+      
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
             .collection('Users')
@@ -43,15 +44,17 @@ class _MenuTabState extends State<MenuTab> {
                 itemBuilder: (context, index) {
                   final menu = snapshot.data!.docs[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 16.0),
                     child: Card(
-                      elevation: 2.0,
+                      color: Colors.white,
+                      elevation: 0.7,
+                      margin: const EdgeInsets.all(6.0),
                       child: ListTile(
                         onTap: () {
                           widget.onMenuSelected(menu.id);
                         },
-                        leading: const Icon(Icons.menu_book),
-                        title: Text(menu['name_menu']),
+                        leading: const Icon(Icons.menu_book, size: 30),
+                        title: Text(menu['name_menu'], style: const TextStyle(fontSize: 15),),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -59,7 +62,7 @@ class _MenuTabState extends State<MenuTab> {
                               onPressed: (){
                                 _editNameMenu(userProvider.currentUser.userId!, menu.id, () => setState(() {}));
                               }, 
-                              icon: const Icon(Icons.edit)
+                              icon: const Icon(Icons.edit, size: 30)
                             ),
                             //const SizedBox(width: 8), // Espacio entre los iconos
                             IconButton(
@@ -70,7 +73,7 @@ class _MenuTabState extends State<MenuTab> {
                                   });
                                 });
                               }, 
-                              icon: const Icon(Icons.delete),
+                              icon: const Icon(Icons.delete, size: 30),
                             ),
                           ],
                         )

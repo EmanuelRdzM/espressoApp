@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) async {
       if (user != null) {
         await Provider.of<UserProvider>(context, listen: false).getCurrentUser();
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacementNamed(Routes.welcome);
       } else {
         Navigator.of(context).pushReplacementNamed(Routes.login);

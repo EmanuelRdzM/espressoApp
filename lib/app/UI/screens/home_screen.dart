@@ -26,6 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight= MediaQuery.of(context).size.height;
+    double sizeButton = screenHeight;
+
+    if (screenWidth < screenHeight) {
+      // Si la pantalla tiene un formato vertical, tomamos el ancho
+      sizeButton = screenWidth;
+    } 
+    
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -50,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Center(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -58,16 +68,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconTextButton(labelText: 'MENÚ',icon: Icons.restaurant_menu_outlined, 
+                        IconTextButton(
+                          labelText: 'MENÚ',
+                          icon: Icons.restaurant_menu_outlined, 
+                          width: sizeButton * 0.3,
+                          height: sizeButton * 0.3,
                           onTap: (){
                             Navigator.of(context).pushNamed(Routes.menu);
                           },
                         ),
                         const SizedBox(width: 16), // Espacio entre botones
                 
-                        IconTextButton(labelText: 'Pedidos', icon: Icons.receipt_long, 
+                        IconTextButton(
+                          labelText: 'Pedidos', 
+                          icon: Icons.receipt_long,
+                          width: sizeButton * 0.3,
+                          height: sizeButton * 0.30, 
                           onTap: (){
-                            Navigator.of(context).pushNamed(Routes.ordersAvailble);
+                            Navigator.of(context).pushNamed(Routes.openTickets);
                           }
                         ),
                       ],
@@ -76,13 +94,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconTextButton(labelText: 'Inventario', icon: Icons.inventory_rounded, 
+                        IconTextButton(
+                          labelText: 'Inventario', 
+                          icon: Icons.inventory_rounded, 
+                          width: sizeButton * 0.3,
+                          height: sizeButton * 0.30,
                           onTap: (){
                             Navigator.of(context).pushNamed(Routes.inventory);
                           }
                         ),
                         const SizedBox(width: 16),
-                        IconTextButton(labelText: 'Proovedores', icon: Icons.supervised_user_circle,
+                        IconTextButton(
+                          labelText: 'Proovedores', 
+                          icon: Icons.supervised_user_circle,
+                          width: sizeButton * 0.3,
+                          height: sizeButton * 0.30,
                           onTap: (){
                             Navigator.of(context).pushNamed(Routes.contacts);
                           }
