@@ -26,7 +26,7 @@ class ImageSourceSheet{
     // Check file
     final croppedImage = await ImageCropper().cropImage(
       sourcePath: image.path,
-      aspectRatioPresets: [CropAspectRatioPreset.square],
+      aspectRatioPresets: [CropAspectRatioPreset.square, CropAspectRatioPreset.ratio16x9, CropAspectRatioPreset.ratio4x3],
       maxWidth: 700,
       maxHeight: 700,
     );
