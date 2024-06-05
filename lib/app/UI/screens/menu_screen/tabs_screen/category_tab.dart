@@ -136,7 +136,7 @@ class _CategoryTabState extends State<CategoryTab> {
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                                     child: Card(
-                                      elevation: 2.0,
+                                      elevation: 0.8,
                                       margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
                                       child: ListTile(
                                         onTap: () {

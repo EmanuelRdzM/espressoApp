@@ -1,7 +1,13 @@
+import 'package:cafeteria_app/app/UI/screens/order_avaible.dart';
+import 'package:cafeteria_app/app/data/user.dart';
+import 'package:cafeteria_app/widgets/dialog_message.dart';
+import 'package:cafeteria_app/widgets/icon_progres_indicator.dart';
 import 'package:cafeteria_app/widgets/icon_text_button.dart';
+import 'package:cafeteria_app/widgets/toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TicketsScreen extends StatefulWidget {
   const TicketsScreen({super.key});
@@ -16,6 +22,8 @@ class _TicketsScreenState extends State<TicketsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: true);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -28,8 +36,12 @@ class _TicketsScreenState extends State<TicketsScreen> {
       ),
 
       body: SafeArea(
-        child: FutureBuilder<QuerySnapshot>(
-          future: ordersCollection.get(),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: ordersCollection
+            .where('id_user', isEqualTo: userProvider.currentUser.userId)
+            .where('is_open', isEqualTo: true)
+            .snapshots(),
+          //future: ordersCollection.where('id_user', isEqualTo: userProvider.currentUser.userId).get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -42,23 +54,36 @@ class _TicketsScreenState extends State<TicketsScreen> {
                 );
               }else{
                 final List<QueryDocumentSnapshot> orders = snapshot.data!.docs;
+                
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Wrap(
                       alignment: WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      spacing: 25,
-                      runSpacing: 20,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 20,
+                      runSpacing: 30,
                       children: [
 
                         ...orders.map((order) => 
                           IconTextButton(
-                            labelText: 'Ticket ${order.id}',
+                            labelText: 'Order \n ${order['number_of_ticket']}',
+                            //labelText: 'Order \n 5',
                             icon: Icons.receipt_sharp,
                             height: 220,
-                            width: 140,
-                            onTap: () {},
+                            width: 120,
+                            onTap: () {
+                              //Navigator.pushNamed(context, Routes.orderManagment);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OrderAvaible(currentOrder: order),
+                                ),
+                              );
+                            },
+                            deleteButton: () {
+                              _deleteTicket(order.id);
+                            },
                             canDeleted: true,
                           ) 
                         ),
@@ -67,22 +92,28 @@ class _TicketsScreenState extends State<TicketsScreen> {
                           labelText: 'Add', 
                           icon: Icons.add_circle,
                           height: 220,
-                          width: 120,
+                          width: 110,
 
                           onTap: (){
-                            _addTicket();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Scaffold(
+                                    body: Center(
+                                      child: IconProgressInidcator(),
+                                    ),
+                                  ), // Pantalla de carga mientras se agregan los datos
+                              ),
+                            );
+                            _addTicket(userProvider.currentUser.userId!);
                           },
                         ),
-                
                       ],
                     ),
                   ),
                 );
-
               }
             }
-
-            
           }
         ),
       ),
@@ -90,19 +121,96 @@ class _TicketsScreenState extends State<TicketsScreen> {
   }
 
   // Función para agregar un nuevo ticket
-  Future<void> _addTicket() async {
+  Future<void> _addTicket(String userId) async {
+    DateTime now = DateTime.now();
+
+    // Formato para id del ticket
+    String day = now.day.toString().padLeft(2, '0'); 
+    String month = now.month.toString().padLeft(2, '0'); 
+    String hour = now.hour.toString().padLeft(2, '0'); 
+    String minute = now.minute.toString().padLeft(2, '0');
+    String seconds = now.second.toString().padLeft(2, '0');
+
+
+    //String number_of_ticket = hour + minute + '/' + day + month;
+    String idTicket = "$hour$minute-$seconds/${day}_$month";
+
     try {
-      await ordersCollection.add({
-        'content': 'Nuevo ticket',
-        // Puedes agregar más campos aquí si los necesitas
+      DocumentReference newTicketRef = await ordersCollection.add({
+        'id_user': userId,
+        'is_open': true,
+        'ticket_status': 'open',
+        'ticket_creation_date': FieldValue.serverTimestamp(),
+        'number_of_ticket': idTicket,
+        'products': [], 
       });
-      setState(() {
-        // Actualiza la interfaz de usuario después de agregar el ticket
+
+      // Actualizar el documento con el ID del mismo
+      await newTicketRef.update({
+        'id_ticket': newTicketRef.id,
       });
+      
+      DocumentSnapshot<Object?> newTicketSnapshot = await newTicketRef.get();
+      // Navegar a la pantalla de OrderAvaible con el nuevo ticket
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderAvaible(currentOrder: newTicketSnapshot),
+        ),
+      );
+
     } catch (e) {
       if (kDebugMode) {
         print('Error al agregar el ticket: $e');
       }
     }
+  }
+
+  // Función para agregar un nuevo ticket
+  void _deleteTicket(String ticketId){
+    showDialogMessage(
+    context, 
+    const Text('¿Seguro que deseas eliminar este Ticket?', 
+      style: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w900,
+        fontSize: 25
+      ),
+    ), 
+    Column(
+      children: [
+        const SizedBox(height: 20),
+        Center(
+          child: RichText(
+            text: 
+            const TextSpan(text:'Tenga en consideración que toda la información que contenga el ticket sera eliminado de forma permanente',
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+    () async {
+      try {
+        await FirebaseFirestore.instance.runTransaction((transaction) async {
+          // Eliminar el documento principal del menú
+          final docRef = ordersCollection.doc(ticketId);
+          transaction.delete(docRef);
+          
+        });
+      } catch (error) {
+        // Manejo de errores
+        showToast(message: 'Error al eliminar el menú: $error');
+      }
+      setState(() {
+        
+      });
+    } 
+  );
   }
 }
