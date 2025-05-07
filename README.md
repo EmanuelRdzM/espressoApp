@@ -88,6 +88,12 @@ La aplicación fue desarrollada en **Flutter (Dart)**, y utiliza **Firebase** y 
      apply plugin: 'com.google.gms.google-services'
      ```
 
+   Este proyecto requiere un archivo `lib/firebase_options.dart` que se genera con:
+
+   ```bash
+   flutterfire configure
+   ```
+
 4. **Ejecuta la aplicación:**
 
    Conecta un dispositivo Android o inicia un emulador y ejecuta:
