@@ -1,4 +1,6 @@
-# 📱 Cafetería App - Gestión Interna para Negocios Locales
+# Cafetería App - Gestión Interna para Negocios Locales
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/EmanuelRdzM/espressoApp)
 
 Este proyecto fue desarrollado como parte de una residencia profesional universitaria. El objetivo principal es **optimizar la gestión operativa de una cafetería** mediante una aplicación móvil diseñada específicamente para **dispositivos Android tipo tablet**, facilitando el trabajo del personal y mejorando el control administrativo del negocio.
 
