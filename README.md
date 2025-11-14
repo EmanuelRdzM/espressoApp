@@ -53,8 +53,8 @@ La aplicación fue desarrollada en **Flutter (Dart)**, y utiliza **Firebase** y 
 1. **Clona este repositorio:**
 
    ```bash
-   git clone https://github.com/tu_usuario/nombre_proyecto.git
-   cd nombre_proyecto
+   git clone https://github.com/EmanuelRdzM/espressoApp.git
+   cd espressoApp
    ```
 
 2. **Instala las dependencias del proyecto:**
