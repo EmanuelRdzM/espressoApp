@@ -3,42 +3,37 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 
-class ImageSourceSheet {
+class ImageSourceSheet{
+  // ImagePicker instance
   final picker = ImagePicker();
 
   Future<void> getImagefromGallery({
     required Function(File?) onImageSelected,
-  }) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile == null) {
-      if (kDebugMode) print('No image selected');
+  }) async{
+    // Get image from device gallery
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile == null){
+      if (kDebugMode) {
+        print('No image selected');
+      }
       return;
     }
+    // ignore: use_build_context_synchronously
     final image = File(pickedFile.path);
 
-    final CroppedFile? croppedFile = await ImageCropper().cropImage(
+    // Check file
+    final croppedImage = await ImageCropper().cropImage(
       sourcePath: image.path,
+      aspectRatioPresets: [CropAspectRatioPreset.square, CropAspectRatioPreset.ratio16x9, CropAspectRatioPreset.ratio4x3],
       maxWidth: 700,
       maxHeight: 700,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Recortar',
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio16x9,
-            CropAspectRatioPreset.ratio4x3,
-          ],
-        ),
-        IOSUiSettings(
-          title: 'Recortar',
-          aspectRatioLockEnabled: false,
-        ),
-      ],
     );
-
-    final file = (croppedFile != null) ? File(croppedFile.path) : null;
+    
+    final file = croppedImage != null ? File(croppedImage.path) : null;
     onImageSelected(file);
+  
   }
+
 }
