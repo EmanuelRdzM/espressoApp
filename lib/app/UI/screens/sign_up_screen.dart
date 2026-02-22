@@ -1,4 +1,5 @@
 import 'package:cafeteria_app/app/UI/routes/routes.dart';
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/widgets/toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cafeteria_app/app/domain/models/firebase_auth_service.dart';
@@ -62,7 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       style: TextStyle(
                         fontSize: 30, 
                         fontWeight: FontWeight.bold,
-                        color: Colors.pink,
+                        color: APP_PRIMARY_COLOR,
                       ),
                     ),
                     const SizedBox(height: 40),

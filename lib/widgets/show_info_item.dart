@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +84,7 @@ class ShowInfoItem extends StatelessWidget {
                         ],
                       ),
                     const Divider(
-                      color: Colors.pinkAccent,
+                      color: APP_PRIMARY_COLOR_DARK,
                       thickness: 1.5,
                       height: 20,
                       indent: 15,

@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/widgets/calculator.dart';
 import 'package:cafeteria_app/widgets/dialog_message.dart';
@@ -196,7 +197,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                       });
                     }
                   },
-                  icon: const Icon(Icons.remove, color: Colors.pinkAccent)
+                  icon: const Icon(Icons.remove, color: APP_PRIMARY_COLOR_DARK)
                 ),
                 SizedBox(
                   width: 50, // Ajusta el ancho según sea necesario
@@ -215,7 +216,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                       product['quantity']++;
                     });
                   },
-                  icon: const Icon(Icons.add, color: Colors.pinkAccent)
+                  icon: const Icon(Icons.add, color: APP_PRIMARY_COLOR_DARK)
                 ),
               ],
             ),
@@ -360,7 +361,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
               ),
             ),
             const Divider(
-              color: Colors.pinkAccent,
+              color: APP_PRIMARY_COLOR_DARK,
               thickness: 2,
               height: 30,
               indent: 10,
@@ -374,7 +375,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                         style: TextStyle(
                           fontSize: 25.0,
                           fontWeight: FontWeight.bold,
-                          color: Colors.pinkAccent,
+                          color: APP_PRIMARY_COLOR_DARK,
                         ),
                       ),
                     )
@@ -450,7 +451,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                     ),
             ),
             const Divider(
-              color: Colors.pinkAccent,
+              color: APP_PRIMARY_COLOR_DARK,
               thickness: 2,
               height: 30,
               indent: 10,
@@ -565,7 +566,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.pinkAccent,
+                        color:APP_PRIMARY_COLOR_DARK,
                       ),
                     ),
                     const SizedBox(height: 15.0),
@@ -595,7 +596,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                                   });
                                 },
                                 style:  ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.pinkAccent,
+                                  backgroundColor: APP_PRIMARY_COLOR_DARK,
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -620,7 +621,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                             style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.pinkAccent
+                              color: APP_PRIMARY_COLOR
                             ),
                           ),
                           const SizedBox(height: 15.0),
@@ -650,7 +651,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                                         });
                                       },
                                       style:  ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.pinkAccent,
+                                        backgroundColor: APP_PRIMARY_COLOR_DARK,
                                         foregroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(5),
@@ -675,7 +676,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.pinkAccent
+                                    color: APP_PRIMARY_COLOR_DARK
                                   ),
                                 ),
                                 const SizedBox(height: 15.0),
@@ -711,7 +712,7 @@ class _OrderAvaibleState extends State<OrderAvaible> {
                     
                                             }, 
                                             style:  ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.pinkAccent,
+                                              backgroundColor: APP_PRIMARY_COLOR_DARK,
                                               foregroundColor: Colors.white,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(5),

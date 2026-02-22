@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -256,7 +257,7 @@ class _ShowCalculatorState extends State<ShowCalculator> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.pinkAccent,
+                        backgroundColor: APP_PRIMARY_COLOR_DARK,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -299,7 +300,7 @@ class _ShowCalculatorState extends State<ShowCalculator> {
 
   Widget _calcButton(
     String label, 
-    {Color backgroundColor = Colors.pinkAccent}
+    {Color backgroundColor = APP_PRIMARY_COLOR_DARK}
   ){
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -311,7 +312,7 @@ class _ShowCalculatorState extends State<ShowCalculator> {
             backgroundColor: backgroundColor.withOpacity(0.1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
-              side: const BorderSide(color: Colors.pinkAccent),
+              side: const BorderSide(color: APP_PRIMARY_COLOR_DARK),
             ),
           ),
           child: Text(

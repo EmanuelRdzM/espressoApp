@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/widgets/add_menu_category.dart';
 import 'package:cafeteria_app/widgets/icon_progres_indicator.dart';
@@ -189,7 +190,7 @@ class _CategoryTabState extends State<CategoryTab> {
       floatingActionButton: selectedMenuId.isEmpty 
       ? null 
       : FloatingActionButton(
-        backgroundColor: !_showAddButton ? const Color.fromARGB(255, 197, 199, 198) : Colors.pink,
+        backgroundColor: !_showAddButton ? const Color.fromARGB(255, 197, 199, 198) : APP_PRIMARY_COLOR,
         onPressed: !_showAddButton 
         ? null
         : () {

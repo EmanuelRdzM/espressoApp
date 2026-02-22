@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/widgets/add_menu_category.dart';
 import 'package:cafeteria_app/widgets/icon_progres_indicator.dart';
@@ -89,7 +90,7 @@ class _MenuTabState extends State<MenuTab> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.pink,
+        backgroundColor: APP_PRIMARY_COLOR,
         onPressed: () {
           _showAddMenuDialog(userProvider.currentUser.userId!, () => setState(() {} ));
         },

@@ -1,4 +1,5 @@
 import 'package:cafeteria_app/app/UI/screens/menu_screen/tabs_screen/item_drawter.dart';
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/app/data/items.dart';
 import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/widgets/add_menu_category.dart';
@@ -318,7 +319,7 @@ class _ItemTabState extends State<ItemTab> {
       floatingActionButton: selectedCategoryId.isEmpty 
       ? null
       : FloatingActionButton(
-        backgroundColor: !_showAddButton ? const Color.fromARGB(255, 197, 199, 198) : Colors.pink,
+        backgroundColor: !_showAddButton ? const Color.fromARGB(255, 197, 199, 198) : APP_PRIMARY_COLOR_LIGHT,
         onPressed: !_showAddButton 
         ? null
         : () {

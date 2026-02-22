@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/UI/screens/change_email.dart';
 import 'package:cafeteria_app/app/UI/screens/contact_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/home_screen.dart';
 import 'package:cafeteria_app/app/UI/screens/menu_screen/menu_screen.dart';
@@ -26,5 +27,6 @@ Map<String, Widget Function(BuildContext)> get appRoutes =>{
   Routes.openTickets: (_) => const TicketsScreen(),
   Routes.inventory: (_) => const InventoryScreen(),
   Routes.contacts: (_) => const ContactScreen(),
+  Routes.changeEmail: (_) => const ChangeEmailScreen(),
   //Routes.orderManagment: (_) => const OrderAvaible(),
 };

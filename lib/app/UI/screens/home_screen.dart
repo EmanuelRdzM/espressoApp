@@ -6,6 +6,7 @@ import 'package:cafeteria_app/widgets/navigation_drawer.dart'
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -26,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final cs = Theme.of(context).colorScheme;
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight= MediaQuery.of(context).size.height;
@@ -130,15 +133,14 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0.0),
-                  ),
+                  // ignore: deprecated_member_use
+                  backgroundColor: isLockedButton ? cs.onSurface.withOpacity(0.12) : cs.primary, // ejemplo
+                  foregroundColor: isLockedButton ? cs.onSurface : cs.onPrimary,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
                 ),
-                child: isLockedButton ? const Icon(Icons.lock, color: Colors.white,) : const Icon( Icons.lock_open, color: Colors.white),
+                child: isLockedButton ? const Icon(Icons.lock) : const Icon(Icons.lock_open),
                 onPressed: () {
-                  isLockedButton = !isLockedButton;
-                  setState(() {}); 
+                  setState(() { isLockedButton = !isLockedButton; });
                 },
               ),
               ElevatedButton(

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/widgets/image_source_sheet.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -103,19 +104,19 @@ class _ContactDetailsDialogState extends State<ContactDetailsDialog> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.grey[300],
-                        border: Border.all(color: Color.fromARGB(255, 204, 204, 204), width: 5.0),
+                        border: Border.all(color: APP_SURFACE_COLOR, width: 5.0),
                       ),
                       child: Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Color.fromARGB(255, 226, 155, 208), width: 3.0),
+                          border: Border.all(color: APP_PRIMARY_COLOR_LIGHT, width: 3.0),
                         ),
                         child: ClipOval(
                           child: isUpdatingImage 
                           ? const CircularProgressIndicator() 
                           : imageUrlSupplier.isNotEmpty 
                             ? Image.network(imageUrlSupplier, fit: BoxFit.cover) 
-                            : const Icon(Icons.camera_alt, size: 80, color: Colors.pink),
+                            : const Icon(Icons.camera_alt, size: 80, color: APP_PRIMARY_COLOR_DARK),
                         )
                       ),
                     ),

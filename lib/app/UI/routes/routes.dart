@@ -9,4 +9,5 @@ abstract class Routes{
   static const orderManagment= '/order_managment';
   static const inventory = '/store';
   static const contacts = '/contatcs';
+  static const changeEmail = '/change_email'; 
 }

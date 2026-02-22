@@ -1,3 +1,4 @@
+import 'package:cafeteria_app/app/constants/constants.dart';
 import 'package:cafeteria_app/app/data/user.dart';
 import 'package:cafeteria_app/widgets/contact_details_dialog.dart';
 import 'package:cafeteria_app/widgets/edit_contact_dialog.dart'; //It also includes the CreateContactDialog
@@ -147,7 +148,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent,
+                      backgroundColor: APP_PRIMARY_COLOR_DARK,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -229,7 +230,7 @@ class ButtonContact extends StatelessWidget {
         children: [
           Container(
             decoration: const BoxDecoration(
-              color: Color.fromRGBO(207, 39, 92, 0.307),
+              color: APP_PRIMARY_COLOR_LIGHT,
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),
             child: Padding(
